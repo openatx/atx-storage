@@ -22,13 +22,17 @@ def current_ip():
 def main():
     parser = argparse.ArgumentParser(
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument("-p", "--port", default=4000, type=int, help="listen port")
-    parser.add_argument("-d", "--debug", action="store_true", help="enable debug")
-    parser.add_argument("-X", "--xheaders", action="store_true", help="retrive ip from X-Real-Ip/X-Forwarded-For")
+    parser.add_argument("-p", "--port", default=4000,
+                        type=int, help="listen port")
+    parser.add_argument(
+        "-d", "--debug", action="store_true", help="enable debug")
+    parser.add_argument("-X", "--xheaders", action="store_true",
+                        help="retrive ip from X-Real-Ip/X-Forwarded-For")
     args = parser.parse_args()
-    app = make_app()
 
     enable_pretty_logging()
+
+    app = make_app(debug=args.debug)
 
     server = HTTPServer(app, xheaders=args.xheaders)
     server.listen(args.port)
